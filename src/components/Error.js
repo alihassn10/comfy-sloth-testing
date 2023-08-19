@@ -1,6 +1,8 @@
 import React from 'react'
 const Error = () => {
-  return <h4>error element</h4>
+  return <div className='section section-center text-center'>
+    <h1>there was an error</h1>
+  </div>
 }
 
 export default Error

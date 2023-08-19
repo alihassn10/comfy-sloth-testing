@@ -1,20 +1,47 @@
-import React from 'react'
-import { FaShoppingCart, FaUserMinus, FaUserPlus } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
-import { useProductsContext } from '../context/products_context'
-import { useCartContext } from '../context/cart_context'
-import { useUserContext } from '../context/user_context'
+import React from "react";
+import { FaShoppingCart, FaUserMinus, FaUserPlus } from "react-icons/fa";
+import { FiLogIn, FiLogOut } from "react-icons/fi";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { useProductsContext } from "../context/products_context";
+import { useCartContext } from "../context/cart_context";
+import { useUserContext } from "../context/user_context";
 
 const CartButtons = () => {
-  return <h4>cart buttons </h4>
-}
+  const { closeSidebar } = useProductsContext();
+  const { totalItems } = useCartContext();
+  const { loginWithRedirect, logout, myUser } = useUserContext();
+  return (
+    <Wrapper>
+      <Link to="/cart" className="cart-btn" onClick={closeSidebar}>
+        <span className="cart-container">
+          <FaShoppingCart />
+          <span className="cart-value">{totalItems}</span>
+        </span>
+      </Link>
+      {myUser ? (
+        <button
+          className="auth-btn"
+          onClick={() => logout({ returnTo: window.location.origin })}
+        >
+          logout
+          <FiLogOut />
+        </button>
+      ) : (
+        <button className="auth-btn" onClick={loginWithRedirect}>
+          login
+          <FiLogIn />
+        </button>
+      )}
+    </Wrapper>
+  );
+};
 
 const Wrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
-  width: 225px;
+  width: 200px;
 
   .cart-btn {
     color: var(--clr-grey-1);
@@ -62,5 +89,5 @@ const Wrapper = styled.div`
       margin-left: 5px;
     }
   }
-`
-export default CartButtons
+`;
+export default CartButtons;
